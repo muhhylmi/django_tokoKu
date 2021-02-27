@@ -9,12 +9,37 @@ updateBtns.forEach((updateBtn) => {
     console.log("User:", user);
 
     if (user == "AnonymousUser") {
-      console.log("User is not authenticated");
+      addCookieItem(productId, action);
     } else {
       updateUserOrder(productId, action);
     }
   });
 });
+
+function addCookieItem(productId, action) {
+  console.log("User is not authenticated");
+
+  if (action == "add") {
+    if (cart[productId] == undefined) {
+      cart[productId] = { quantity: 1 };
+    } else {
+      cart[productId]["quantity"] += 1;
+    }
+  }
+
+  if (action == "remove") {
+    cart[productId]["quantity"] -= 1;
+
+    if (cart[productId]["quantity"] <= 0) {
+      console.log("Item should be deleted");
+      delete cart[productId];
+    }
+  }
+  console.log("CART:", cart);
+  document.cookie = "cart=" + JSON.stringify(cart) + ";domain=;path=/";
+
+  location.reload();
+}
 
 function updateUserOrder(productId, action) {
   console.log("User is authenticated, sending data...");
