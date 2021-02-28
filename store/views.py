@@ -3,21 +3,14 @@ from django.shortcuts import render
 from django.http import JsonResponse
 import json
 from .models import *
+from .utils import cookieCart, cartData
+
 # Create your views here.
 
 
 def store(request):
-    if request.user.is_authenticated:
-        customer = request.user.customer
-        order, created = Order.objects.get_or_create(
-            customer=customer, complete=False)
-        items = order.orderitem_set.all()
-        cartItems = order.get_cart_items
-    else:
-        # Create empty cart for now for non-logged in user
-        items = []
-        order = {'get_cart_total': 0, 'get_cart_items': 0, 'shipping': False}
-        cartItems = order['get_cart_items']
+    data = cartData(request)
+    cartItems = data['cartItems']
 
     products = Product.objects.all()
     context = {'products': products, 'cartItems': cartItems}
@@ -25,61 +18,20 @@ def store(request):
 
 
 def cart(request):
-    if request.user.is_authenticated:
-        customer = request.user.customer
-        order, created = Order.objects.get_or_create(
-            customer=customer, complete=False)
-        items = order.orderitem_set.all()
-        cartItems = order.get_cart_items
-    else:
-        # Create empty cart for now for non-logged in user
-        try:
-            cart = json.loads(request.COOKIES['cart'])
-        except:
-            cart = {}
-        items = []
-        order = {'get_cart_items': 0, 'get_cart_total': 0}
-        cartItems = order['get_cart_items']
+    data = cartData(request)
+    items = data['items']
+    order = data['order']
+    cartItems = data['cartItems']
 
-        for i in cart:
-            try:
-                cartItems += cart[i]['quantity']
-
-                product = Product.objects.get(id=i)
-                total = (product.price * cart[i]['quantity'])
-
-                order['get_cart_items'] += cart[i]['quantity']
-                order['get_cart_total'] += total
-
-                item = {
-                    'product': {
-                        'id': product.id,
-                        'price': product.price,
-                        'name': product.name,
-                        'imageURL': product.imageURL
-                    },
-                    'quantity': cart[i]['quantity'],
-                    'get_total': total
-                }
-                items.append(item)
-            except:
-                pass
     context = {'items': items, 'order': order, 'cartItems': cartItems}
     return render(request, 'store/cart.html', context)
 
 
 def checkout(request):
-    if request.user.is_authenticated:
-        customer = request.user.customer
-        order, created = Order.objects.get_or_create(
-            customer=customer, complete=False)
-        items = order.orderitem_set.all()
-        cartItems = order.get_cart_items
-    else:
-        # Create empty cart for now for non-logged in user
-        items = []
-        order = {'get_cart_items': 0, 'get_cart_total': 0}
-        cartItems = order['get_cart_items']
+    data = cartData(request)
+    items = data['items']
+    order = data['order']
+    cartItems = data['cartItems']
 
     context = {'items': items, 'order': order, 'cartItems': cartItems}
     return render(request, 'store/checkout.html', context)
