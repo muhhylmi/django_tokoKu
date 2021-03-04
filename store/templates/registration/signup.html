@@ -1,0 +1,71 @@
+{% extends 'store/main.html' %}
+
+{% block content %}
+<style>
+    #signup-wrapper{
+        height: 77vh;
+    }
+    .card-header{
+        background-color: #4f868c !important;
+    }
+    #card-title{
+        color: #fff;
+    }
+    .btn-primary{
+        background-color: #4f868c !important;        
+            border: none;
+            display: block;
+            width: 100%;
+            border-radius: 5px;
+            margin-left: auto;
+            margin-right: auto;
+    }
+</style>
+    <div class="container">
+        <div class="row justify-content-center align-items-center" id="signup-wrapper">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="text-center" id="card-title">Toko Ku Member Registration</h4>
+                    </div>
+                    <div class="card-body">
+                        
+                        {% for message in messages %}
+                            
+                            {% if message.tags == 'success' %}
+                                <div class="alert alert-success">{{message}}</div>
+                            {% else %}
+                                 <div class="alert alert-danger">{{message}}</div>
+                            {% endif %}
+                                
+                        {% endfor %}
+                            
+                        <form action="{% url 'signup' %}" method="post" class="form-group">
+                            {% csrf_token %}
+                            
+                            <label for="id_username">Username:</label> 
+                            <input class="form-control" type="text" name="username" maxlength="150" autocapitalize="none" autocomplete="username" autofocus required id="id_username">
+                            <br>
+                            <label for="id_password1">Password:</label> 
+                            <input class="form-control" type="password" name="password1" autocomplete="new-password" required id="id_password1"> 
+                            <!-- <span class="helptext">
+                                <ul>
+                                    <li>Your password can’t be too similar to your other personal information.</li>
+                                    <li>Your password must contain at least 8 characters.</li>
+                                    <li>Your password can’t be a commonly used password.</li>
+                                    <li>Your password can’t be entirely numeric.</li>
+                                </ul>
+                            </span> -->
+                            <br>
+                            <label for="id_password2">Password confirmation:</label> 
+                            <input class="form-control mb-2" type="password" name="password2" autocomplete="new-password" required id="id_password2"> 
+                            <span class="helptext">Enter the same password as before, for verification.</span>
+                            <br>
+                            <button class="btn btn-primary mt-2">Sign Up</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock  %}

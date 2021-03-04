@@ -1,11 +1,30 @@
 import datetime
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import JsonResponse
 import json
 from .models import *
 from .utils import cookieCart, cartData, guestOrder
-
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib import messages
 # Create your views here.
+
+
+def signup(request):
+    if request.POST:
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Registrasi Berhasil")
+            return redirect('signup')
+        else:
+            messages.error(request, "Terjadi Kesalahan")
+            return redirect('signup')
+    else:
+        form = UserCreationForm()
+        konteks = {
+            'form': form
+        }
+    return render(request, "registration/signup.html", konteks)
 
 
 def store(request):
