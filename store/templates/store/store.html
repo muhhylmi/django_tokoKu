@@ -3,17 +3,35 @@
 
 {% block content %}
 <style>
-    .jumbotron-fluid, .display-4{
+    .jumbotron-fluid{
         color: #fff;
         background-image: url("{% static 'images/hero-bg.jpg' %}");
         background-size: cover;
         background-position: center;
+        position: relative;
     }
+    .display-4{
+        color: #fff;
+    }
+    .jumbotron-fluid::before{
+        content: "";
+        background-color: rgba(0, 0, 0,0.5);
+        position: absolute;
+        bottom: 0px;
+        top: 0px;
+        left: 0;
+        right: 0;
+    }
+
 </style>
 <div class="jumbotron jumbotron-fluid">
     <div class="container text-center">
-      <h1 class="display-4"><strong>Welcome To <strong>Toko Ku</strong> </strong>  </h1>
-      <p class="lead">Happy Shopping according to your needs</p>
+        <div class="row">
+            <div class="col">
+                <h1 class="display-4"><strong>Welcome To <strong>Toko Ku</strong> </strong>  </h1>
+                <p class="lead">Happy Shopping according to your needs</p>
+            </div>
+        </div>
     </div>
   </div>
 <div class="row">
