@@ -125,6 +125,10 @@ STATICFILES_DIRS = [
     BASE_DIR, 'static'
 ]
 
+LOGIN_REDIRECT_URL = "store"
+
+LOGIN_URL = 'login'
+
 MEDIA_URL = '/images/'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'static/images')
