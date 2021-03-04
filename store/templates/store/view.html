@@ -1,0 +1,36 @@
+{% extends 'store\main.html' %}
+
+
+{% block content %}
+    <style>
+        .row{
+            display: flex;
+            align-items: center;
+        }   
+    </style>    
+
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card my-4">
+                    <img class="card-img-top" src="{{product.imageURL}}" height="300px" alt="Card image cap">
+                    <div class="card-body">
+                      <h5 class="card-title">{{product.name}} </h5>
+                      
+                      {% if product.digital %}
+                        <p class="card-text">Product Digital</p>
+                        {% else %}
+                        <p class="card-text">Product Non Digital</p>
+                      {% endif %}
+                          
+                      <p class="card-text"> <strong>$ {{product.price}}</strong></small></p>
+                      <button data-product={{product.id}} data-action="add" class="btn btn-outline-secondary add-btn update-cart">Add to Cart</button>
+                      <a  class="btn btn-outline-dark" href="{% url 'store' %}">&#x2190; Continue Shopping</a>
+
+                    </div>
+                  </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}
+    

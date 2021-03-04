@@ -17,6 +17,15 @@ def store(request):
     return render(request, 'store/store.html', context)
 
 
+def view(request, id_barang):
+    data = cartData(request)
+    cartItems = data['cartItems']
+
+    product = Product.objects.get(id=id_barang)
+    context = {'product': product, 'cartItems': cartItems}
+    return render(request, 'store/view.html', context)
+
+
 def cart(request):
     data = cartData(request)
     items = data['items']

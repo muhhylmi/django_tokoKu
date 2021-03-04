@@ -8,8 +8,18 @@
         <meta http-equiv="refresh" content="0; url={% url 'store' %}">
     {% else %}
 
+    <style>
+        .row{
+            height: 80vh;
+        }
+        .card-header{
+            background-color: #4f868c !important;
+            color: #fff;
+        }
+    </style>
+
     <div class="container">
-        <div class="row">
+        <div class="row justify-content-center align-items-center">
             <div class="col-md-5">
                 <div class="card">
                     <div class="card-header">
