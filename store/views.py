@@ -6,12 +6,14 @@ from .models import *
 from .utils import cookieCart, cartData, guestOrder
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
+from .form import FormCustomer
 # Create your views here.
 
 
 def signup(request):
     if request.POST:
-        form = UserCreationForm(request.POST)
+        form = FormCustomer(request.POST)
+        # print(request.POST['email'])
         if form.is_valid():
             form.save()
             messages.success(request, "Registrasi Berhasil")
@@ -20,7 +22,7 @@ def signup(request):
             messages.error(request, "Terjadi Kesalahan")
             return redirect('signup')
     else:
-        form = UserCreationForm()
+        form = FormCustomer()
         konteks = {
             'form': form
         }
